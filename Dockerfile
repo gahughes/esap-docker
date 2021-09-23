@@ -1,8 +1,12 @@
 # This is the Dockerfile to run Gammapy on Binder.
 #
 
-FROM continuumio/miniconda3:4.10.3
+FROM continuumio/miniconda3:4.7.12
 MAINTAINER Gammapy developers <gammapy@googlegroups.com>
+
+# compilers
+RUN apt-get --allow-releaseinfo-change update
+RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
 COPY binder.py tmp/
@@ -10,15 +14,13 @@ COPY enviro.dat tmp/environment.yml
 
 WORKDIR tmp/
 RUN conda update conda
-RUN conda install -c conda-forge mamba 
+RUN conda install -c conda-forge mamba
 RUN mamba install -q -y pyyaml
 RUN python binder.py
 
 # add gammapy user running the jupyter notebook process
-ARG NB_USER=jovyan
-ARG NB_UID=1000
-ENV USER ${NB_USER}
-ENV NB_UID ${NB_UID}
+ENV NB_USER gammapy
+ENV NB_UID 1000
 ENV HOME /home/${NB_USER}
 
 RUN adduser --disabled-password \
@@ -26,20 +28,16 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 
-COPY . ${HOME}
+# download tutorials and datasets
+RUN gammapy download datasets --out=${HOME}/gammapy-datasets --release=0.18.1
+
+# setting ownerships
 USER root
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
+RUN chown -R gammapy:gammapy ${HOME}
 
-#RUN pip install --no-cache-dir notebook
-#RUN pip install --no-cache-dir jupyterhub
-
-# compilers
-##TEMP RUN apt-get --allow-releaseinfo-change update
-#RUN apt install -y curl
-
-RUN gammapy download datasets  --out=${HOME}/gammapy-datasets --release=0.18.2
-
+# start JupyterLab server in tutorials dir
 USER ${NB_USER}
 WORKDIR ${HOME}
 
+# env vars used in tutorials
+ENV GAMMAPY_DATA ${HOME}/gammapy-datasets
