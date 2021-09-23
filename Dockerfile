@@ -28,9 +28,9 @@ COPY binder.py tmp/
 COPY enviro.dat tmp/environment.yml 
 
 WORKDIR tmp/
-RUN python binder.py
 RUN conda update conda
 RUN conda install -c conda-forge mamba 
 RUN mamba install -q -y pyyaml
+RUN python binder.py
 RUN gammapy download datasets  --out=${HOME}/gammapy-datasets--release=0.18.2
 
