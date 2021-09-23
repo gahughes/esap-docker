@@ -34,3 +34,6 @@ RUN mamba install -q -y pyyaml
 RUN python binder.py
 RUN gammapy download datasets  --out=${HOME}/gammapy-datasets--release=0.18.2
 
+USER ${NB_USER}
+WORKDIR ${HOME}
+
