@@ -4,6 +4,16 @@
 FROM continuumio/miniconda3:4.10.3
 MAINTAINER Gammapy developers <gammapy@googlegroups.com>
 
+# install dependencies - including the stable version of Gammapy
+COPY binder.py tmp/
+COPY enviro.dat tmp/environment.yml 
+
+WORKDIR tmp/
+RUN conda update conda
+RUN conda install -c conda-forge mamba 
+RUN mamba install -q -y pyyaml
+RUN python binder.py
+
 # add gammapy user running the jupyter notebook process
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -27,16 +37,6 @@ USER ${NB_USER}
 # compilers
 ##TEMP RUN apt-get --allow-releaseinfo-change update
 #RUN apt install -y curl
-
-# install dependencies - including the stable version of Gammapy
-COPY binder.py tmp/
-COPY enviro.dat tmp/environment.yml 
-
-WORKDIR tmp/
-RUN conda update conda
-RUN conda install -c conda-forge mamba 
-RUN mamba install -q -y pyyaml
-RUN python binder.py
 
 RUN gammapy download datasets  --out=${HOME}/gammapy-datasets --release=0.18.2
 
