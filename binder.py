@@ -1,4 +1,4 @@
-i"""Install code on Binder.
+"""Install code on Binder.
 
 This script is executed from Dockerfile configuration file
 It installs software dependencies declared in environment.yml
