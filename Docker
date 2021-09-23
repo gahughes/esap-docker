@@ -22,8 +22,8 @@ RUN adduser --disabled-password \
 RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
-#COPY binder.py tmp/
-#COPY environment.stuff tmp/environment.yml 
+COPY binder.py tmp/
+COPY environment.yml tmp/environment.yml 
 
 WORKDIR tmp/
 RUN conda update conda
