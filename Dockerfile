@@ -16,6 +16,11 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 
+COPY . ${HOME}
+USER root
+RUN chown -R ${NB_UID} ${HOME}
+USER ${NB_USER}
+
 RUN pip install --no-cache-dir notebook
 RUN pip install --no-cache-dir jupyterhub
 
@@ -32,7 +37,7 @@ RUN conda update conda
 RUN conda install -c conda-forge mamba 
 RUN mamba install -q -y pyyaml
 RUN python binder.py
-RUN gammapy download datasets  --out=${HOME}/gammapy-datasets--release=0.18.2
+RUN gammapy download datasets  --out=${HOME}/gammapy-datasets --release=0.18.2
 
 USER ${NB_USER}
 WORKDIR ${HOME}
