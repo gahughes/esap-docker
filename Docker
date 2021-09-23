@@ -19,22 +19,29 @@ RUN adduser --disabled-password \
 
 # compilers
 ##TEMP RUN apt-get --allow-releaseinfo-change update
-RUN apt install -y curl
+#RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
 #COPY binder.py tmp/
-COPY getdata.py tmp/
-COPY environment.yml tmp/environment.yml 
+#COPY environment.yml tmp/environment.yml 
 
 WORKDIR tmp/
 RUN conda update conda
 RUN conda install -c conda-forge mamba 
 RUN mamba install -q -y pyyaml
-RUN python getdata.py
-#RUN python binder.py
+RUN pip install conda-forge
+RUN pip install numpy
+RUN pip install scipy
+RUN pip install Astropy
+RUN pip install regions
+RUN pip install click
+RUN pip install PyYAML
+RUN pip install pydantic
+RUN pip install gammapy
+RUN pip install tqdm#RUN python binder.py
 
 # download tutorials and datasets
-#WORKDIR ${HOME}
-#RUN gammapy download datasets  --out=${HOME}/gammapy-tutorials --release=0.18.2
+WORKDIR ${HOME}
+RUN gammapy download datasets  --out=${HOME}/gammapy-tutorials --release=0.18.2
 
 
