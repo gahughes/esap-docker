@@ -22,17 +22,19 @@ RUN adduser --disabled-password \
 RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
-COPY binder.py tmp/
+#COPY binder.py tmp/
+COPY getdata.py tmp/
 COPY environment.yml tmp/environment.yml 
 
 WORKDIR tmp/
 RUN conda update conda
 RUN conda install -c conda-forge mamba 
 RUN mamba install -q -y pyyaml
+RUN python getdata.py
 #RUN python binder.py
 
 # download tutorials and datasets
-WORKDIR ${HOME}
-RUN gammapy download datasets  --out=${HOME}/gammapy-tutorials --release=0.18.2
+#WORKDIR ${HOME}
+#RUN gammapy download datasets  --out=${HOME}/gammapy-tutorials --release=0.18.2
 
 
