@@ -21,27 +21,24 @@ USER root
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
-RUN pip install --no-cache-dir notebook
-RUN pip install --no-cache-dir jupyterhub
+#RUN pip install --no-cache-dir notebook
+#RUN pip install --no-cache-dir jupyterhub
 
 # compilers
 ##TEMP RUN apt-get --allow-releaseinfo-change update
 #RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
-#COPY binder.py tmp/
-COPY ghbinder.py tmp/
+COPY binder.py tmp/
 COPY enviro.dat tmp/environment.yml 
 
 WORKDIR tmp/
-#RUN conda update conda
-#RUN conda install -c conda-forge mamba 
-#RUN mamba install -q -y pyyaml
-#RUN python binder.py
+RUN conda update conda
+RUN conda install -c conda-forge mamba 
+RUN mamba install -q -y pyyaml
+RUN python binder.py
 
-RUN python -m pip install pyyaml
-RUN python ghbinder.py
-#RUN gammapy download datasets  --out=${HOME}/gammapy-datasets --release=0.18.2
+RUN gammapy download datasets  --out=${HOME}/gammapy-datasets --release=0.18.2
 
 USER ${NB_USER}
 WORKDIR ${HOME}
