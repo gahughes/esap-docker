@@ -19,25 +19,26 @@ RUN mamba install -q -y pyyaml
 RUN python binder.py
 
 # add gammapy user running the jupyter notebook process
-ENV NB_USER gammapy
-ENV NB_UID 1000
-ENV HOME /home/${NB_USER}
+#ENV NB_USER gammapy
+#ENV NB_UID 1000
+#ENV HOME /home/${NB_USER}
 
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
+#RUN adduser --disabled-password \
+#    --gecos "Default user" \
+#    --uid ${NB_UID} \
+#    ${NB_USER}
 
 # download tutorials and datasets
-RUN gammapy download datasets --out=${HOME}/gammapy-datasets --release=0.18.2
+##RUN gammapy download datasets --out=${HOME}/gammapy-datasets --release=0.18.2
+RUN gammapy download datasets  --release=0.18.2
 
 # setting ownerships
-USER root
-RUN chown -R gammapy:gammapy ${HOME}
+#USER root
+#RUN chown -R gammapy:gammapy ${HOME}
 
 # start JupyterLab server in tutorials dir
-USER ${NB_USER}
-WORKDIR ${HOME}/gammapy-tutorials/notebooks-0.18.2
+#USER ${NB_USER}
+#WORKDIR ${HOME}/gammapy-tutorials/notebooks-0.18.2
 
 # env vars used in tutorials
-ENV GAMMAPY_DATA ${HOME}/gammapy-datasets
+ENV GAMMAPY_DATA /home/jovyan/gammapy-datasets/
