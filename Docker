@@ -30,6 +30,7 @@ RUN conda update conda
 RUN conda install -c conda-forge mamba 
 RUN mamba install -q -y pyyaml
 RUN python binder.py
+RUN pip install tqdm
 
 # download tutorials and datasets
 WORKDIR ${HOME}
