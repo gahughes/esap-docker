@@ -12,4 +12,4 @@ dependencies:
   - PyYAML
   - pydantic
   - gammapy
-  - tdqm
+  - tqdm
