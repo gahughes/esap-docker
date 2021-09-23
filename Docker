@@ -4,20 +4,6 @@
 FROM continuumio/miniconda3:4.10.3
 MAINTAINER Gammapy developers <gammapy@googlegroups.com>
 
-# compilers
-##TEMP RUN apt-get --allow-releaseinfo-change update
-RUN apt install -y curl
-
-# install dependencies - including the stable version of Gammapy
-COPY binder.py tmp/
-COPY environment.stuff tmp/environment.yml 
-
-WORKDIR tmp/
-RUN conda update conda
-RUN conda install -c conda-forge mamba 
-RUN mamba install -q -y pyyaml
-RUN python binder.py
-
 # add gammapy user running the jupyter notebook process
 ARG NB_USER=jovyan
 ARG NB_UID=1000
@@ -26,12 +12,27 @@ ENV NB_UID=${NB_UID}
 ENV HOME=/home/${NB_USER}
 ENV GAMMAPY_DATA=${HOME}/gammapy-datasets
 
-# download tutorials and datasets
-RUN cd ${HOME} && gammapy download datasets  --out=${HOME}/gammapy-tutorials --release=0.18.2
-
 RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER}
+
+# compilers
+##TEMP RUN apt-get --allow-releaseinfo-change update
+RUN apt install -y curl
+
+# install dependencies - including the stable version of Gammapy
+#COPY binder.py tmp/
+#COPY environment.stuff tmp/environment.yml 
+
+WORKDIR tmp/
+RUN conda update conda
+RUN conda install -c conda-forge mamba 
+RUN mamba install -q -y pyyaml
+RUN python binder.py
+
+# download tutorials and datasets
+WORKDIR ${HOME}
+RUN gammapy download datasets  --out=${HOME}/gammapy-tutorials --release=0.18.2
 
 
