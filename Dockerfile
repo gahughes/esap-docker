@@ -38,8 +38,10 @@ WORKDIR tmp/
 #RUN conda install -c conda-forge mamba 
 #RUN mamba install -q -y pyyaml
 #RUN python binder.py
+
+RUN python -m pip install pyyaml
 RUN python ghbinder.py
-RUN gammapy download datasets  --out=${HOME}/gammapy-datasets --release=0.18.2
+#RUN gammapy download datasets  --out=${HOME}/gammapy-datasets --release=0.18.2
 
 USER ${NB_USER}
 WORKDIR ${HOME}

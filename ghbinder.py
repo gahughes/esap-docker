@@ -13,4 +13,4 @@ with open("environment.yml") as stream:
 
 for chan in content['dependencies']:
     print("RUN pip install {}".format(chan))
-    subprocess.call([sys.executable, "-m", "pip", "install", str(chan))
+    subprocess.call([sys.executable, "-m", "pip", "install", str(chan)])
