@@ -10,7 +10,7 @@ RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
 COPY binder.py tmp/
-COPY environment.yml tmp/environment.yml 
+COPY environment.stuff tmp/environment.yml 
 
 WORKDIR tmp/
 RUN conda update conda
@@ -26,12 +26,12 @@ ENV NB_UID=${NB_UID}
 ENV HOME=/home/${NB_USER}
 ENV GAMMAPY_DATA=${HOME}/gammapy-datasets
 
+# download tutorials and datasets
+RUN cd ${HOME} && gammapy download datasets  --out=${HOME}/gammapy-tutorials --release=0.18.2
+
 RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER}
-
-# download tutorials and datasets
-RUN cd ${HOME} && gammapy download datasets  --release=0.18.2
 
 
