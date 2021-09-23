@@ -10,7 +10,8 @@ RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
 COPY binder.py tmp/
-COPY enviro.dat tmp/environment.yml 
+#COPY enviro.dat tmp/environment.yml 
+RUN curl -o tmp/environment.yml https://gammapy.org/download/install/gammapy-0.18.2-environment.yml
 
 WORKDIR tmp/
 RUN conda update conda
