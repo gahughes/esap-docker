@@ -1,0 +1,14 @@
+name: esap_demo
+
+channels:
+- conda-forge
+
+dependencies:
+  - numpy
+  - scipy
+  - Astropy
+  - regions
+  - click
+  - PyYAML
+  - pydantic
+  - gammapy
