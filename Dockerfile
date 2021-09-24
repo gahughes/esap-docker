@@ -4,9 +4,6 @@
 FROM continuumio/miniconda3:4.7.12
 MAINTAINER Gammapy developers <gammapy@googlegroups.com>
 
-## NEED THIS
-RUN pip install --no-cache notebook jupyterlab
-
 # compilers
 RUN apt-get --allow-releaseinfo-change update
 #RUN apt install -y curl
@@ -33,7 +30,6 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 
-#COPY cta.ipynb ${HOME}
 
 # download tutorials and datasets
 RUN gammapy download datasets --out=${HOME}/gammapy-datasets --release=0.18.1
@@ -45,8 +41,10 @@ RUN chown -R gammapy:gammapy ${HOME}
 # start JupyterLab server in tutorials dir
 USER ${NB_USER}
 WORKDIR ${HOME}
+RUN pip install --no-cache notebook jupyterlab
+COPY cta.ipynb ${HOME}
 
 # env vars used in tutorials
 ENV GAMMAPY_DATA ${HOME}/gammapy-datasets
 
-ENTRYPOINT bash
+#ENTRYPOINT bash
