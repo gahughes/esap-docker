@@ -4,6 +4,9 @@
 FROM continuumio/miniconda3:4.7.12
 MAINTAINER Gammapy developers <gammapy@googlegroups.com>
 
+## NEED THIS
+RUN pip install --no-cache notebook jupyterlab
+
 # compilers
 RUN apt-get --allow-releaseinfo-change update
 #RUN apt install -y curl
