@@ -6,7 +6,7 @@ MAINTAINER Gammapy developers <gammapy@googlegroups.com>
 
 # compilers
 RUN apt-get --allow-releaseinfo-change update
-RUN apt install -y curl
+#RUN apt install -y curl
 
 # install dependencies - including the stable version of Gammapy
 COPY binder.py tmp/
@@ -18,6 +18,7 @@ RUN conda update conda
 RUN conda install -c conda-forge mamba
 RUN mamba install -q -y pyyaml
 RUN python binder.py
+#RUN conda env create -f environment.yml
 
 # add gammapy user running the jupyter notebook process
 ENV NB_USER gammapy
@@ -29,7 +30,7 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 
-COPY cta.ipynb ${HOME}
+#COPY cta.ipynb ${HOME}
 
 # download tutorials and datasets
 RUN gammapy download datasets --out=${HOME}/gammapy-datasets --release=0.18.1
