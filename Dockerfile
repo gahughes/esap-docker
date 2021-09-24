@@ -29,6 +29,8 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 
+COPY cta.ipynb ${HOME}
+
 # download tutorials and datasets
 RUN gammapy download datasets --out=${HOME}/gammapy-datasets --release=0.18.1
 
@@ -42,3 +44,5 @@ WORKDIR ${HOME}
 
 # env vars used in tutorials
 ENV GAMMAPY_DATA ${HOME}/gammapy-datasets
+
+ENTRYPOINT bash
