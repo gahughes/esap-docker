@@ -34,5 +34,5 @@ dependencies:
   #- pydantic=1.2
   ####- emcee=2.2.1
   #- corner=2.0
-  #- parfive=1.0
+  - parfive=1.0
   #- pip
